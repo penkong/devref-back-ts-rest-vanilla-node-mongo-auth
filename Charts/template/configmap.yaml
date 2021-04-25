@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.component }}
+  labels:
+    app: {{ .Values.app.name }}
+    component: {{ .Values.app.component }}
+    environment: {{ .Values.environment }}
+data:
+  config.yaml: |-
+{{ toJson .Values.app.config | indent 4 }}
