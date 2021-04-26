@@ -33,7 +33,7 @@ services:
   api:
     # image: 'penkong/devref-back-typescript-rest-express-pg-typeorm-auth'
     build: 
-      context: ../api
+      context: ../server
       dockerfile: Dockerfile.dev
     restart: always
     stdin_open: true
@@ -47,8 +47,8 @@ services:
       - DBURL=mongodb://<MONGOUSER>:<MONGOPASS>@mongodb:27017
       - DBNAME=vanillanodemongo
       - NODE_ENV=development
-      - MONGOPASS=root
-      - MONGOUSER=secret
+      - MONGOPASS=secret
+      - MONGOUSER=root
       - CORS=http://localhost:3000
       - JWT_KEY=uy6hw65hywtrnbewhnterwhg
       - JWT_TTL=365d
