@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-depl
+  labels:
+    app: pgdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgdb
+  template:
+    metadata:
+      labels:
+        app: pgdb
+    spec:
+      containers:
+        - name: pgdb
+          image: 'postgres:13.2-alpine'
+          env:
+            - name: DEBUG
+              value: 'true'
+
+            - name: DB_EXTENSION
+              value: pg_trgm
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: pguser
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: pgpass
+
+            - name: PGPORT
+              value: '5432'
+
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
+          resources:
+            limits:
+              memory: '256Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 5432
+
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pgvol
+      volumes:
+        - name: pgvol
+          persistentVolumeClaim:
+            claimName: gitlab-postgresql-storage
+        - name: initdb
+          configMap:
+            name: gitlab-postgresql-initdb
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-srv
+spec:
+  selector:
+    app: pgdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

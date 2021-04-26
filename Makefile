@@ -15,10 +15,21 @@ mongoExpress:
 	docker run -p 8082:8081 -d -e ME_CONFIG_MONGODB_ADMINUSERNAME=root -e ME_CONFIG_MONGODB_ADMINPASSWORD=secret -e ME_CONFIG_MONGODB_SERVER=mongo -e ME_CONFIG_MONGODB_PORT=27017 --name mongo-express --network vanilla-net mongo-express
 
 apibuilddev:
-	cd server && docker build -t penkong/vanilla -f Dockerfile.dev . 
+	cd server && docker build -t penkong/vanillanodemongo -f Dockerfile.dev . 
 
 composeup:
-	docker-compose -f docker-compose.dev.yaml up -d --build
+	cd docker && docker-compose -f docker-compose.dev.yaml up -d --build
 
 composedown:
-	docker-compose -f docker-compose.dev.yaml down
+	cd docker && docker-compose -f docker-compose.dev.yaml down
+
+removeAllVolumes:
+	docker volume rm $(docker volume ls -q)
+
+
+# ka == kubectl apply -f 
+kuberup:
+	cd k8s && kubectl apply -f secrets.k8s.yaml && kubectl apply -f confmap.k8s.yaml && kubectl apply -f .
+
+kuberdown:
+	cd k8s && kubectl delete -f .
