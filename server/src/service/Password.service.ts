@@ -15,10 +15,14 @@ export class PasswordService {
   //
 
   static async toHash(password: string) {
-    const salt = randomBytes(12).toString('hex')
-    const buf = (await scryptAsync(password, salt, 64)) as Buffer
-
-    return `${buf.toString('hex')}.${salt}`
+    try {
+      const salt = randomBytes(12).toString('hex')
+      const buf = (await scryptAsync(password, salt, 64)) as Buffer
+      console.log(salt)
+      return `${buf.toString('hex')}.${salt}`
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   static async compare(storedPass: string, password: string) {
