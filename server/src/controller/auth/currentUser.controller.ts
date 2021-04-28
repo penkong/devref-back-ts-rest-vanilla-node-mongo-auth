@@ -12,7 +12,7 @@ export async function currentUser(
 ) {
   if (!req.headers.cookie) {
     res.writeHead(404, { 'Content-Type': 'application/json' })
-    res.write(JSON.stringify([{ message: 'not here!' }]))
+    res.write(JSON.stringify([{ message: 'go back' }]))
     res.end()
     return
   }
