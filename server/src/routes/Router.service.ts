@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
 
-import { validRoutes } from '../utils'
+import { validRoutes } from '../util'
 import { alreadyIn } from '../middleware'
 import { register, login, currentUser, logout } from '../controller'
 

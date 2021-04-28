@@ -6,9 +6,8 @@ import jwt from 'jsonwebtoken'
 
 import { IncomingMessage, ServerResponse } from 'http'
 
-import { config } from '../../config/'
+import { config } from '../../config'
 import { BadReqErr } from '../../error'
-import { UserRepository } from '../../data'
 import { IRegisterInfo, IUser } from '../../@types'
 import { PasswordService } from '../../service'
 import { getBody, userRefine } from '../../util'
@@ -28,13 +27,15 @@ export const register = async (
     // get body from buffer to string
     const { email, password } = (await getBody(req)) as IRegisterInfo
 
-    const existingUser: IUser = await UserRepository.getByEmail(email)
+    // const existingUser: IUser = await UserRepository.getByEmail(email)
 
-    if (existingUser) throw new BadReqErr('Email in use!')
+    // if (existingUser) throw new BadReqErr('Email in use!')
+
+    const user = { hashed_pass: 'fsd', user_id: '3', email: 'fdsfds' }
 
     const hashed = await PasswordService.toHash(password)
 
-    const user: IUser = await UserRepository.create({ email, password: hashed })
+    // const user: IUser = await UserRepository.create({ email, password: hashed })
 
     // Generate JWT
     const userJwt = jwt.sign(
@@ -52,7 +53,20 @@ export const register = async (
       ).toUTCString()}`
     )
     res.writeHead(201, { 'Content-Type': 'application/json' })
-    res.write(JSON.stringify([userRefine(user, userJwt)]))
+    res.write(
+      JSON.stringify([
+        userRefine(
+          {
+            ...user,
+            created_at: 'dfsd',
+            updated_at: 'fdsfdsf',
+            deleted_at: 'ffsd',
+            deleted: false
+          },
+          userJwt
+        )
+      ])
+    )
     res.end()
     return
   } catch (error) {

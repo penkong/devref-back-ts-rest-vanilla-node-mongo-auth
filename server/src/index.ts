@@ -1,35 +1,33 @@
+import { app } from './app'
 import { MongoClient } from 'mongodb'
 
 import { config } from './config'
 
-const { PORT, DBURL, DBNAME, MONGOUSER, MONGOPASS } = config
-
-// // Connection URL
-
-const url = DBURL!
-  .replace('<MONGOUSER>', MONGOUSER!)
-  .replace('<MONGOPASS>', MONGOPASS!)
-
-console.log(url)
-const client = new MongoClient(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-
-// Database Name
+const { DBURL, MONGOUSER, MONGOPASS } = config
 
 async function main() {
-  // Use connect method to connect to the server
   try {
+    const url = DBURL!
+      .replace('<MONGOUSER>', MONGOUSER!)
+      .replace('<MONGOPASS>', MONGOPASS!)
+
+    const client = new MongoClient(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+
     await client.connect()
-    console.log('Connected successfully to server')
-    console.log(3)
+
+    console.log('connected to db!')
+
+    if (config.PORT)
+      app.listen(parseInt(config.PORT), () =>
+        console.log(`Server running on port ${config.PORT}`)
+      )
   } catch (error) {
     console.log(error)
   }
 }
 
 main()
-  .then(() => console.log('434'))
-  .catch(console.error)
-  .finally(() => client.close())
+process.on('warning', e => console.warn(e.stack))

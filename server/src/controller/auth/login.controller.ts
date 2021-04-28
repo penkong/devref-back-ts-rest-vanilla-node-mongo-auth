@@ -5,7 +5,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { config } from '../../config'
 import { BadReqErr } from '../../error'
 import { PasswordService } from '../../service'
-import { getBody, userRefine } from '../../utils'
+import { getBody, userRefine } from '../../util'
 import { IRegisterInfo, IUser } from '../../@types'
 
 // ---
