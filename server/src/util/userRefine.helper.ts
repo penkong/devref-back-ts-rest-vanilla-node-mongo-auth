@@ -1,14 +1,13 @@
-import { IUser } from '../@types'
+import { WithId } from 'mongodb'
+import { UserModel } from '../data'
 
 // ---
 
 export const userRefine = (
-  { user_id, email, updated_at, created_at }: IUser,
+  { _id, email }: WithId<UserModel>,
   token: string
 ) => ({
-  id: user_id,
+  id: _id,
   email,
-  createdAt: created_at,
-  updatedAt: updated_at,
   token
 })

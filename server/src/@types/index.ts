@@ -10,13 +10,9 @@ export interface ICurrentUser {
 }
 
 export interface IUser {
-  user_id: string
+  _id: string
   email: string
-  hashed_pass: string
-  created_at: string
-  updated_at: string
-  deleted_at: string
-  deleted: boolean
+  password: string
 }
 
 interface CookieSessionOptions {

@@ -51,16 +51,16 @@ export async function login(
     res.writeHead(201, { 'Content-Type': 'application/json' })
     res.write(
       JSON.stringify([
-        userRefine(
-          {
-            ...user,
-            created_at: 'dfsd',
-            updated_at: 'fdsfdsf',
-            deleted_at: 'ffsd',
-            deleted: false
-          },
-          userJwt
-        )
+        // userRefine(
+        //   {
+        //     ...user,
+        //     created_at: 'dfsd',
+        //     updated_at: 'fdsfdsf',
+        //     deleted_at: 'ffsd',
+        //     deleted: false
+        //   },
+        //   userJwt
+        // )
       ])
     )
     res.end()

@@ -2,21 +2,27 @@ import { app } from './app'
 import { MongoClient } from 'mongodb'
 
 import { config } from './config'
+import { UserRepository } from './data'
 
-const { DBURL, MONGOUSER, MONGOPASS } = config
+const { DBURL, MONGOUSER, MONGOPASS, DBNAME } = config
+
+const url = DBURL!
+  .replace('<MONGOUSER>', MONGOUSER!)
+  .replace('<MONGOPASS>', MONGOPASS!)
+
+let client: MongoClient
 
 async function main() {
   try {
-    const url = DBURL!
-      .replace('<MONGOUSER>', MONGOUSER!)
-      .replace('<MONGOPASS>', MONGOPASS!)
-
-    const client = new MongoClient(url, {
+    client = new MongoClient(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
 
-    await client.connect()
+    const con = await client.connect()
+    const db = con.db(DBNAME)
+
+    await UserRepository.injectDB(db)
 
     console.log('connected to db!')
 
@@ -26,8 +32,11 @@ async function main() {
       )
   } catch (error) {
     console.log(error)
+    await client.close()
   }
 }
 
 main()
 process.on('warning', e => console.warn(e.stack))
+process.on('SIGINT', () => client.close())
+process.on('SIGTERM', () => client.close())

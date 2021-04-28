@@ -18,7 +18,6 @@ export class PasswordService {
     try {
       const salt = randomBytes(12).toString('hex')
       const buf = (await scryptAsync(password, salt, 64)) as Buffer
-      console.log(salt)
       return `${buf.toString('hex')}.${salt}`
     } catch (error) {
       console.log(error)
