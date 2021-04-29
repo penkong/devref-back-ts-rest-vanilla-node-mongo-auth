@@ -1,0 +1,15 @@
+/*
+ ** Description :
+ */
+
+export abstract class BaseErr extends Error {
+  abstract statusCode: number
+
+  constructor(message: string) {
+    super(message)
+
+    Object.setPrototypeOf(this, BaseErr.prototype)
+  }
+
+  abstract serializeErrors(): { message: string; field?: string }[]
+}

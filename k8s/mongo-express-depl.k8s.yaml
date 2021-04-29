@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-depl
+  labels:
+    app: pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: confmap
+                  key: pgadminemail
+
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: pgadminpass
+
+          resources:
+            limits:
+              memory: '256Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 80
+---
+# minikube service pgadmin-srv
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-srv
+spec:
+  type: LoadBalancer
+  selector:
+    app: pgadmin
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 80
+      nodePort: 31888

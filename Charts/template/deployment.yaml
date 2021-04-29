@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.component }}
+  annotations:
+    checksum/app-config: {{ toJson .Values.app.config | sha256sum }}
+    checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    {{- if .Values.openconnect.enabled }}
+    checksum/config-openconnect: {{ include (print $.Template.BasePath "/configmap-openconnect.yaml") . | sha256sum }}
+    checksum/secrets-openconnect: {{ include (print $.Template.BasePath "/secrets-openconnect.yaml") . | sha256sum }}
+    {{- end }}
+  labels:
+    app: {{ .Values.app.name }}
+    component: {{ .Values.app.component }}
+    environment: {{ .Values.environment }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+      component: {{ .Values.app.component }}
+      environment: {{ .Values.environment }}
+  template:
+    metadata:
+      annotations:
+        checksum/app-config: {{ toJson .Values.app.config | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if .Values.openconnect.enabled }}
+        checksum/config-openconnect: {{ include (print $.Template.BasePath "/configmap-openconnect.yaml") . | sha256sum }}
+        checksum/secrets-openconnect: {{ include (print $.Template.BasePath "/secrets-openconnect.yaml") . | sha256sum }}
+        {{- end }}
+      labels:
+        app: {{ .Values.app.name }}
+        component: {{ .Values.app.component }}
+        environment: {{ .Values.environment }}
+    spec:
+      containers:
+      - name: {{ .Values.app.component }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        volumeMounts:
+        - name: {{ .Values.app.component }}
+          mountPath: /config
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      {{- if .Values.openconnect.enabled }}
+      - name: {{ .Values.app.component }}-openconnect
+        image: "{{ .Values.openconnect.image.repository }}:{{ .Values.openconnect.image.tag }}"
+        imagePullPolicy: "{{ .Values.openconnect.image.pullPolicy }}"
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.app.component }}-openconnect
+        - secretRef:
+            name: {{ .Values.app.component }}-openconnect
+        ports:
+        - name: forwarded
+          containerPort: {{ .Values.openconnect.port }}
+          protocol: TCP
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      {{- end }}
+      volumes:
+      - name: {{ .Values.app.component }}
+        configMap:
+          name: {{ .Values.app.component }}
+      securityContext: {}
+      serviceAccount: {{ .Values.rbac.serviceAccountName }}
+      serviceAccountName: {{ .Values.rbac.serviceAccountName }}
+      automountServiceAccountToken: false
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
