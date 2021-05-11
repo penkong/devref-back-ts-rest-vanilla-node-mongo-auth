@@ -4,8 +4,14 @@ import { validRoutes } from '../util'
 import { alreadyIn } from '../middleware'
 import { register, login, currentUser, logout } from '../controller'
 
+// ---
+
 export class Router {
+  //
+
   static async dispatch(url: URL, req: IncomingMessage, res: ServerResponse) {
+    //
+
     const r = req.method + url.pathname
 
     if (r == validRoutes[0]) {

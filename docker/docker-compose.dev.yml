@@ -2,46 +2,35 @@
 version: '3.4'
 services:
 
-  # 
-  mongodb:
-    image: mongo
-    ports:
-      - 27017:27017
-    restart: always
+  nginx:
     stdin_open: true
+
+  portainer:
+    stdin_open: true
+
+  redis:
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  mongodb:
+    restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=secret
-    volumes:
-      - mongovol:/data/db
 
-  # 
   mongo-express:
-    image: mongo-express
-    ports:
-      - 8082:8081
-    restart: always 
-    stdin_open: true  
-    depends_on:
-      - mongodb
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
       - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_SITE_BASEURL=/__info__/mongo-express
 
-  # 
-  api:
-    # image: 'penkong/devref-back-typescript-rest-express-pg-typeorm-auth'
+  apiauth:
     build: 
-      context: ../server
       dockerfile: Dockerfile.dev
-    restart: always
-    stdin_open: true
-    depends_on:
-      - mongodb
     volumes: 
       - /app/node_modules 
-      - ../server:/app
+      - ../app/services/auth-service:/app
     environment:
       - PORT=5002
       - DBURL=mongodb://<MONGOUSER>:<MONGOPASS>@mongodb:27017
@@ -54,7 +43,5 @@ services:
       - JWT_TTL=365d
     ports: 
       - 5002:5002
-  
-volumes:
-  mongovol:
-    driver: local
+
+
