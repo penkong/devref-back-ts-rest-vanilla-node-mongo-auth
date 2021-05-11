@@ -19,9 +19,17 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /__info__/mongo-express
+            backend:
+              service:
+                name: mongo-express-srv
+                port:
+                  number: 8081
+
+          - pathType: Prefix
+            path: /v1/api/auth
             backend:
               service:
                 name: api-auth-srv
                 port:
-                  number: 5003
+                  number: 5002

@@ -1,74 +1,51 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pg-depl
+  name: mongo-depl
   labels:
-    app: pgdb
+    app: mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pgdb
+      app: mongodb
   template:
     metadata:
       labels:
-        app: pgdb
+        app: mongodb
     spec:
       containers:
-        - name: pgdb
-          image: 'postgres:13.2-alpine'
+        - name: mongodb
+          image: 'mongo:4.4.6-bionic'
+          ports:
+            - containerPort: 27017
           env:
-            - name: DEBUG
-              value: 'true'
-
-            - name: DB_EXTENSION
-              value: pg_trgm
-
-            - name: POSTGRES_USER
+            - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: secrets
-                  key: pguser
+                  key: mongouser
 
-            - name: POSTGRES_PASSWORD
+            - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: secrets
-                  key: pgpass
-
-            - name: PGPORT
-              value: '5432'
-
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+                  key: mongopass
 
           resources:
             limits:
               memory: '256Mi'
               cpu: '500m'
-          ports:
-            - containerPort: 5432
-
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: pgvol
-      volumes:
-        - name: pgvol
-          persistentVolumeClaim:
-            claimName: gitlab-postgresql-storage
-        - name: initdb
-          configMap:
-            name: gitlab-postgresql-initdb
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pg-srv
+  name: mongo-srv
 spec:
   selector:
-    app: pgdb
+    app: mongodb
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 27017
+      targetPort: 27017
