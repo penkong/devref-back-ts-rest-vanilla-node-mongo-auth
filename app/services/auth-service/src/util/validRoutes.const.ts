@@ -1,6 +1,6 @@
 export const validRoutes = [
-  'POST/api/v1/auth/register',
-  'POST/api/v1/auth/login',
-  'GET/api/v1/auth/current-user',
-  'GET/api/v1/auth/logout'
+  'POST/v1/api/auth/register',
+  'POST/v1/api/auth/login',
+  'GET/v1/api/auth/current-user',
+  'GET/v1/api/auth/logout'
 ]

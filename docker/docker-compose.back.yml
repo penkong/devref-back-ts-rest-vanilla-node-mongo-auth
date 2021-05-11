@@ -2,6 +2,24 @@
 version: '3.4'
 services:
 
+  nginx:
+    image: 'nginx:stable-alpine'
+    stdin_open: true
+    ports: 
+      - 80:80
+      - 443:443
+    tty: true
+    depends_on: 
+      - apiauth
+      - redis
+      - mongodb
+      - mongo-express
+      - portainer
+    volumes: 
+      # remember!!!!!!! add trust proxy to nodejs services
+      - ../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
+      
+
   portainer:
     image: portainer/portainer-ce
     stdin_open: true
@@ -19,7 +37,7 @@ services:
     stdin_open: true
     restart: always
     volumes:
-      - mtararedisvol:/var/lib/redis
+      - redisvol:/var/lib/redis
       # - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       # - REDIS_REPLICATION_MODE=master
@@ -55,7 +73,7 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
 
   # 
-  api:
+  apiauth:
     build: 
       context: ../server
       dockerfile: Dockerfile.dev
@@ -84,4 +102,5 @@ volumes:
     driver: local
   portainer_data:
     driver: local
-  
+  redisvol:
+    driver: local

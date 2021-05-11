@@ -1,1 +1,38 @@
-# df`
+
+version: '3.8'
+services:
+  nginx:
+
+  portainer:
+
+  redis:
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  mongodb:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${}
+      - MONGO_INITDB_ROOT_PASSWORD=${}
+
+  mongo-express:
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${}
+      - ME_CONFIG_MONGODB_SERVER=${}
+
+  apiauth:
+    build: 
+      dockerfile: Dockerfile
+      image: penkong/mtapiauth
+    environment:
+      - PORT=${}
+      - DBURL=${}
+      - DBNAME=${}
+      - NODE_ENV=${}
+      - PGPASS=${}
+      - PGUSER=${}
+      - CORS=http://${}:3000
+      - JWT_KEY=${}
+      - JWT_TTL=${}
+    ports: 
+      - ${}:${}
