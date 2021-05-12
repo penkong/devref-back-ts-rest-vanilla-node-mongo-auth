@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes: 
       - /app/node_modules 
-      - ../app/services/auth-service:/app
+      - ../app/services/auth:/app
     environment:
       - PORT=5002
       - DBURL=mongodb://<MONGOUSER>:<MONGOPASS>@mongodb:27017

@@ -19,7 +19,8 @@ spec:
           # eval $(minikube docker-env)
           # cd to service && docker build -t penkong/vanillanodemongo .
           image: 'penkong/vanillanodemongo'
-          imagePullPolicy: Never
+          # imagePullPolicy: Never // if use local image
+          imagePullPolicy: Always
           env:
             - name: PORT
               valueFrom:
