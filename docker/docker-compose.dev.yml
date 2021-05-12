@@ -9,16 +9,18 @@ services:
     stdin_open: true
 
   redis:
+    stdin_open: true
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
 
   mongodb:
-    restart: always
+    stdin_open: true
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=secret
 
   mongo-express:
+    stdin_open: true
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
@@ -28,6 +30,7 @@ services:
   apiauth:
     build: 
       dockerfile: Dockerfile.dev
+    stdin_open: true
     volumes: 
       - /app/node_modules 
       - ../app/services/auth:/app

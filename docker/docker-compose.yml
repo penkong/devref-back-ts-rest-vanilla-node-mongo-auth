@@ -20,7 +20,6 @@ services:
 
   portainer:
     image: portainer/portainer-ce
-    stdin_open: true
     restart: always
     volumes:
       - portainer_data:/data
@@ -28,21 +27,19 @@ services:
 
   redis:
     image: "redis:6.2.2-alpine"
-    stdin_open: true
     restart: always
     volumes:
       - redisvol:/var/lib/redis
 
   mongodb:
     image: mongo
-    stdin_open: true
+    restart: always
     volumes:
       - mongovol:/data/db
 
   mongo-express:
     image: mongo-express
     restart: always 
-    stdin_open: true  
     depends_on:
       - mongodb
 
@@ -50,7 +47,6 @@ services:
     build: 
       context: ../app/services/auth
     restart: always
-    stdin_open: true
     depends_on:
       - mongodb
       - redis
