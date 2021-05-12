@@ -5,7 +5,7 @@ metadata:
   namespace: default
 data:
   port: '5002'
-  dburl: mongo-srv
+  dburl: mongodb://<MONGOUSER>:<MONGOPASS>@mongo-srv:27017/?authSource=admin
   dbname: deverevanillanodemong
   envnode: development
   cors: http://localhost:3000

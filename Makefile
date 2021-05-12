@@ -29,7 +29,7 @@ removeAllVolumes:
 
 # ka == kubectl apply -f 
 kuberup:
-	cd k8s && kubectl apply -f secrets.k8s.yaml && kubectl apply -f confmap.k8s.yaml && kubectl apply -f .
+	cd k8s && kubectl apply -f 0.* && kubectl apply -f 1.* && kubectl apply -f 2.*
 
 kuberdown:
 	cd k8s && kubectl delete -f .
