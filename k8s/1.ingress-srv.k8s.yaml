@@ -1,0 +1,42 @@
+# minikube addons enable metrics-server
+# minikube addons enable dashboard
+# kubectl describe po -A
+# kubectl get svc --all-namespaces
+# minikube addons enable ingress --alsologtostderr
+# kubectl describe ingress ingress-srv
+# kubectl describe po ingress-nginx --namespace kube-system
+apiVersion: networking.k8s.io/v1
+# apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  labels:
+    name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    # INGRESS.kubernetes.io/rewrite-target: /
+spec:
+  # tls:
+  #   - hosts:
+  #     - dnspurian.dev
+  #     secretName: myapp-sec-tls
+  rules:
+    # map with /etc/hosts
+    - host: dnspurian.dev
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: api-auth-srv
+                port:
+                  number: 5002
+          - pathType: Prefix
+            path: /__info__/mongo-express
+            backend:
+              service:
+                name: mongo-express-srv
+                port:
+                  number: 8081

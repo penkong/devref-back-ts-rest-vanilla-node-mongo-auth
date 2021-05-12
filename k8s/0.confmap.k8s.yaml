@@ -4,8 +4,8 @@ metadata:
   name: confmap
   namespace: default
 data:
-  port: '5003'
-  dburl: mongo-srv
+  port: '5002'
+  dburl: mongodb://<MONGOUSER>:<MONGOPASS>@mongo-srv:27017/?authSource=admin
   dbname: deverevanillanodemong
   envnode: development
   cors: http://localhost:3000
