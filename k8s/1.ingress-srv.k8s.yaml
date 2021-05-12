@@ -27,7 +27,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /v1/api/auth
             backend:
               service:
                 name: api-auth-srv

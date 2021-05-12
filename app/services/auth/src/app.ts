@@ -1,7 +1,7 @@
 import http, { IncomingMessage, ServerResponse } from 'http'
 
 import { Router } from './routes'
-import { UrlRefiner } from './service/'
+import { UrlRefiner } from './service'
 import { CookieSessionRequest } from './@types'
 
 // ---

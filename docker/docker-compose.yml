@@ -48,7 +48,7 @@ services:
 
   apiauth:
     build: 
-      context: ../app/services/auth-service
+      context: ../app/services/auth
     restart: always
     stdin_open: true
     depends_on:
