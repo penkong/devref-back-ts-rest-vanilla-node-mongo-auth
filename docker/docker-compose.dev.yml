@@ -36,6 +36,8 @@ services:
       - ../app/services/auth:/app
     environment:
       - PORT=5002
+      # to specify any other option for connection add ?retryWrites=true
+      # to import data in mongo mongorestore --gzip --archive=sampledata.archive.gz
       - DBURL=mongodb://<MONGOUSER>:<MONGOPASS>@mongodb:27017
       - DBNAME=vanillanodemongo
       - NODE_ENV=development
