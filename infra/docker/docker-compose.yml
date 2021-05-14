@@ -16,7 +16,7 @@ services:
       - portainer
     volumes: 
       # remember!!!!!!! add trust proxy to nodejs services
-      - ../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
+      - ../../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
 
   portainer:
     image: portainer/portainer-ce
@@ -45,7 +45,7 @@ services:
 
   apiauth:
     build: 
-      context: ../app/services/auth
+      context: ../../app/services/auth
     restart: always
     depends_on:
       - mongodb

@@ -33,7 +33,7 @@ services:
     stdin_open: true
     volumes: 
       - /app/node_modules 
-      - ../app/services/auth:/app
+      - ../../app/services/auth:/app
     environment:
       - PORT=5002
       # to specify any other option for connection add ?retryWrites=true
