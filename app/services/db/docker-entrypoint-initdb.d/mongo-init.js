@@ -1,4 +1,5 @@
 print('Start #################################################################')
+// https://holycoders.com/mongodb-schema-validation/
 // Successfully added user: {
 //       "user" : "root",
 //       "roles" : [
@@ -8,6 +9,35 @@ print('Start #################################################################')
 //               }
 //       ]
 // }
+// db = db.getSiblingDB('api_prod_db');
+// db.createUser(
+//   {
+//     user: 'api_user',
+//     pwd: 'api1234',
+//     roles: [{ role: 'readWrite', db: 'api_prod_db' }],
+//   },
+// );
+// db.createCollection('users');
+
+// db = db.getSiblingDB('api_dev_db');
+// db.createUser(
+//   {
+//     user: 'api_user',
+//     pwd: 'api1234',
+//     roles: [{ role: 'readWrite', db: 'api_dev_db' }],
+//   },
+// );
+// db.createCollection('users');
+
+// db = db.getSiblingDB('api_test_db');
+// db.createUser(
+//   {
+//     user: 'api_user',
+//     pwd: 'api1234',
+//     roles: [{ role: 'readWrite', db: 'api_test_db' }],
+//   },
+// );
+// db.createCollection('users');
 
 db.createUser({
   user: 'root',
@@ -16,13 +46,39 @@ db.createUser({
 })
 
 db.createCollection('test', { capped: false })
+db.test.insert([{ item: 1 }])
 
-db.test.insert([
-  { item: 1 },
-  { item: 2 },
-  { item: 3 },
-  { item: 4 },
-  { item: 5 }
-])
+// https://docs.mongodb.com/manual/reference/bson-types/
+db.createCollection('users', {
+  storageEngine: {
+    wiredTiger: {}
+  },
+  capped: false,
+  validationLevel: 'strict',
+  validationAction: 'error',
+  validator: {
+    $jsonSchema: {
+      title: 'users',
+      bsonType: 'object',
+      additionalProperties: false,
+      required: ['email', 'password'],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        email: {
+          bsonType: 'string',
+          description: 'must be a email and is required'
+        },
+        password: {
+          bsonType: 'string',
+          description: 'must be a string and is required'
+        }
+      }
+    }
+  }
+})
+// make each column uique .
+db.users.createIndex({ email: 1 }, { unique: true })
 
 print('END #################################################################')

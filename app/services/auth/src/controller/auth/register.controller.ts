@@ -28,6 +28,8 @@ export const register = async (
     // get body from buffer to string
     const { email, password } = (await getBody(req)) as IRegisterInfo
 
+    console.log(email, password)
+
     const existingUser = await UserRepository.getByEmail(email)
 
     if (existingUser) throw new BadReqErr('Email in use!')

@@ -35,8 +35,9 @@ async function main() {
         )
     }
   } catch (error) {
-    console.log(error)
+    console.log(error.stack)
     await client.close()
+    process.exit(1)
   }
 }
 
