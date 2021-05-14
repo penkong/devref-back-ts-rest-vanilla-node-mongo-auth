@@ -74,12 +74,6 @@ export const createUserSchema = async (db: Db) => {
             passwordChangedAt: {
               bsonType: 'date'
             },
-            passwordResetToken: {
-              bsonType: 'string'
-            },
-            passwordResetExpires: {
-              bsonType: 'date'
-            },
             active: {
               bsonType: 'bool'
             },

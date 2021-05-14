@@ -1,6 +1,6 @@
-import { app } from './app'
 import { MongoClient } from 'mongodb'
 
+import { app } from './app'
 import { config } from './config'
 import { UserRepository } from './data'
 import { createUserSchema } from './data/schema/User.schema'
@@ -12,7 +12,7 @@ const url = DBURL!
   .replace('<MONGOPASS>', MONGOPASS!)
 
 let client: MongoClient
-console.log(url)
+
 async function main() {
   try {
     // ;`mongodb://root:secret@localhost:27017/${DBNAME}`
