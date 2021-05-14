@@ -3,6 +3,7 @@ import { MongoClient } from 'mongodb'
 
 import { config } from './config'
 import { UserRepository } from './data'
+import { createUserSchema } from './data/schema/User.schema'
 
 const { DBURL, MONGOUSER, MONGOPASS, DBNAME } = config
 
@@ -26,6 +27,8 @@ async function main() {
       console.log('connected to db!')
 
       const db = con.db(DBNAME)
+
+      await createUserSchema(db)
       await UserRepository.injectDB(db)
 
       if (config.PORT)

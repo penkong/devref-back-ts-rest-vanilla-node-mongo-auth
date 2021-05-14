@@ -49,36 +49,40 @@ db.createCollection('test', { capped: false })
 db.test.insert([{ item: 1 }])
 
 // https://docs.mongodb.com/manual/reference/bson-types/
-db.createCollection('users', {
-  storageEngine: {
-    wiredTiger: {}
-  },
-  capped: false,
-  validationLevel: 'strict',
-  validationAction: 'error',
-  validator: {
-    $jsonSchema: {
-      title: 'users',
-      bsonType: 'object',
-      additionalProperties: false,
-      required: ['email', 'password'],
-      properties: {
-        _id: {
-          bsonType: 'objectId'
-        },
-        email: {
-          bsonType: 'string',
-          description: 'must be a email and is required'
-        },
-        password: {
-          bsonType: 'string',
-          description: 'must be a string and is required'
-        }
-      }
-    }
-  }
-})
-// make each column uique .
-db.users.createIndex({ email: 1 }, { unique: true })
+// db.createCollection('users', {
+//   storageEngine: {
+//     wiredTiger: {}
+//   },
+//   capped: false,
+//   validationLevel: 'strict',
+//   validationAction: 'error',
+//   validator: {
+//     $jsonSchema: {
+//       title: 'users',
+//       bsonType: 'object',
+//       additionalProperties: false,
+//       required: ['name', 'email', 'password'],
+//       properties: {
+//         _id: {
+//           bsonType: 'objectId'
+//         },
+//         name: {
+//           bsonType: 'string'
+//         },
+//         email: {
+//           bsonType: 'string',
+//           // pattern: '',
+//           description: 'must be a email and is required'
+//         },
+//         password: {
+//           bsonType: 'string',
+//           description: 'must be a string and is required'
+//         }
+//       }
+//     }
+//   }
+// })
+// // make each column uique .
+// db.users.createIndex({ email: 1 }, { unique: true })
 
 print('END #################################################################')
