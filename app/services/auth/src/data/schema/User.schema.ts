@@ -19,23 +19,86 @@ export const createUserSchema = async (db: Db) => {
           bsonType: 'object',
           title: 'users',
           additionalProperties: false,
-
-          required: ['name', 'email', 'password'],
+          required: ['name', 'email', 'password', 'role', 'photo', 'active'],
           properties: {
             _id: {
               bsonType: 'objectId'
             },
+            created_at: {
+              bsonType: 'timestamp'
+            },
+            updated_at: {
+              bsonType: 'timestamp'
+            },
             name: {
-              bsonType: 'string'
+              bsonType: 'string',
+              minLength: 3,
+              maxLength: 30,
+              description: 'must be between 3 and 30 and is required'
             },
             email: {
               bsonType: 'string',
-              // pattern: '',
+              // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+              format: 'email',
               description: 'must be a email and is required'
             },
             password: {
               bsonType: 'string',
+              maxLength: 24,
+              minLength: 6,
               description: 'must be a string and is required'
+            },
+            photo: {
+              bsonType: 'array',
+              minItems: 1,
+              maxItems: 5,
+              uniqueItems: true,
+              items: {
+                bsonType: 'string'
+              },
+              pattern: /.+\.(gif|png|jpe?g)$/i,
+              description: 'must be an array of strings and is required'
+            },
+            role: {
+              bsonType: 'string',
+              enum: [
+                'trial-user',
+                'temp-user',
+                'bronze-user',
+                'silver-usr',
+                'gold-user',
+                'admin',
+                'supr-admin'
+              ]
+            },
+            passwordChangedAt: {
+              bsonType: 'date'
+            },
+            passwordResetToken: {
+              bsonType: 'string'
+            },
+            passwordResetExpires: {
+              bsonType: 'date'
+            },
+            active: {
+              bsonType: 'bool'
+            },
+            country: {
+              bsonType: 'string'
+            },
+            address: {
+              bsonType: 'object',
+              additionalProperties: false,
+              properties: {
+                street: {
+                  bsonType: 'string',
+                  description: 'must be a string if the field exists'
+                },
+                city: {
+                  bsonType: 'string',
+                  description: 'must be a string and is required'
+                }
+              }
             }
           }
         }
