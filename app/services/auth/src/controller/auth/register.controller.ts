@@ -12,7 +12,6 @@ import { IRegisterInfo } from '../../@types'
 import { PasswordService } from '../../service'
 import { getBody, userRefine } from '../../util'
 import { UserRepository } from '../../data'
-import { WithId } from 'mongodb'
 
 // ---
 

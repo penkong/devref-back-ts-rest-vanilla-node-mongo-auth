@@ -10,31 +10,32 @@ services:
     tty: true
     depends_on: 
       - apiauth
-      - redis
+      # - redis
       - mongodb
       - mongo-express
-      - portainer
+      # - portainer
     volumes: 
       # remember!!!!!!! add trust proxy to nodejs services
       - ../../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
 
-  portainer:
-    image: portainer/portainer-ce
-    restart: always
-    volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock 
+  # portainer:
+  #   image: portainer/portainer-ce
+  #   restart: always
+  #   volumes:
+  #     - portainer_data:/data
+  #     - /var/run/docker.sock:/var/run/docker.sock 
 
-  redis:
-    image: "redis:6.2.2-alpine"
-    restart: always
-    volumes:
-      - redisvol:/var/lib/redis
+  # redis:
+  #   image: "redis:6.2.2-alpine"
+  #   restart: always
+  #   volumes:
+  #     - redisvol:/var/lib/redis
 
   mongodb:
     image: mongo
     restart: always
     volumes:
+      - ../../app/services/db/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongovol:/data/db
 
   mongo-express:
@@ -49,12 +50,12 @@ services:
     restart: always
     depends_on:
       - mongodb
-      - redis
+      # - redis
   
 volumes:
   mongovol:
     driver: local
   portainer_data:
     driver: local
-  redisvol:
-    driver: local
+  # redisvol:
+  #   driver: local

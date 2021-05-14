@@ -5,19 +5,20 @@ services:
   nginx:
     stdin_open: true
 
-  portainer:
-    stdin_open: true
+  # portainer:
+  #   stdin_open: true
 
-  redis:
-    stdin_open: true
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+  # redis:
+  #   stdin_open: true
+  #   environment:
+  #     - ALLOW_EMPTY_PASSWORD=yes
 
   mongodb:
     stdin_open: true
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=vanillanodemongo
 
   mongo-express:
     stdin_open: true

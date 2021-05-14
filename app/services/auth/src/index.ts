@@ -11,10 +11,11 @@ const url = DBURL!
   .replace('<MONGOPASS>', MONGOPASS!)
 
 let client: MongoClient
-
+console.log(url)
 async function main() {
   try {
-    client = new MongoClient('mongodb://root:secret@localhost:27017', {
+    // ;`mongodb://root:secret@localhost:27017/${DBNAME}`
+    client = new MongoClient(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
@@ -27,11 +28,11 @@ async function main() {
       const db = con.db(DBNAME)
       await UserRepository.injectDB(db)
 
-      // if (config.PORT)
-      // app.listen(parseInt(config.PORT), () =>
-      app.listen(5002, () =>
-        console.log(`Server running on port ${config.PORT || 5002}`)
-      )
+      if (config.PORT)
+        app.listen(parseInt(config.PORT), () =>
+          // app.listen(5002, () =>
+          console.log(`Server running on port ${config.PORT}`)
+        )
     }
   } catch (error) {
     console.log(error)

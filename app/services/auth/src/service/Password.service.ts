@@ -21,6 +21,7 @@ export class PasswordService {
       return `${buf.toString('hex')}.${salt}`
     } catch (error) {
       console.log(error)
+      throw new Error(error)
     }
   }
 
