@@ -10,7 +10,7 @@ services:
     tty: true
     depends_on: 
       - apiauth
-      # - redis
+      - redis
       - mongodb
       - mongo-express
       # - portainer
@@ -25,11 +25,11 @@ services:
   #     - portainer_data:/data
   #     - /var/run/docker.sock:/var/run/docker.sock 
 
-  # redis:
-  #   image: "redis:6.2.2-alpine"
-  #   restart: always
-  #   volumes:
-  #     - redisvol:/var/lib/redis
+  redis:
+    image: "redis:6.2.2-alpine"
+    restart: always
+    volumes:
+      - redisvol:/var/lib/redis
 
   mongodb:
     image: mongo
@@ -50,12 +50,12 @@ services:
     restart: always
     depends_on:
       - mongodb
-      # - redis
+      - redis
   
 volumes:
   mongovol:
     driver: local
-  portainer_data:
-    driver: local
-  # redisvol:
+  # portainer_data:
   #   driver: local
+  redisvol:
+    driver: local

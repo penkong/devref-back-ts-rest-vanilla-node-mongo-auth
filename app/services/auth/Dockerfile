@@ -1,6 +1,6 @@
 FROM node:15.13.0-alpine
 
-
+ENV REDIS=http://127.0.0.1
 ENV PORT=5002
 ENV DBURL=mongodb://localhost:27017
 ENV DBNAME=vanillanodemongo

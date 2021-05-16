@@ -2,10 +2,9 @@ import { Db } from 'mongodb'
 
 export const createUserSchema = async (db: Db) => {
   try {
-    const exist = (await db.listCollections().toArray()).findIndex(
-      el => el.name === 'users'
-    )
-    if (exist === 1) return
+    const collections = await db.listCollections().toArray()
+    const exist = collections.findIndex(el => el.name === 'users')
+    if (exist !== -1) return
 
     await db.createCollection('users', {
       capped: false,
@@ -38,8 +37,9 @@ export const createUserSchema = async (db: Db) => {
             },
             email: {
               bsonType: 'string',
-              // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-              format: 'email',
+              pattern:
+                "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/",
+              // format: 'email',
               description: 'must be a email and is required'
             },
             password: {
@@ -56,7 +56,7 @@ export const createUserSchema = async (db: Db) => {
               items: {
                 bsonType: 'string'
               },
-              pattern: /.+\.(gif|png|jpe?g)$/i,
+              pattern: '/.+.(gif|png|jpe?g)$/i',
               description: 'must be an array of strings and is required'
             },
             role: {

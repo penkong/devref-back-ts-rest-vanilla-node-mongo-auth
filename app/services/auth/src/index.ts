@@ -4,8 +4,9 @@ import { app } from './app'
 import { config } from './config'
 import { UserRepository } from './data'
 import { createUserSchema } from './data/schema/User.schema'
+import { RedisService } from './service/Redis.service'
 
-const { DBURL, MONGOUSER, MONGOPASS, DBNAME } = config
+const { DBURL, MONGOUSER, MONGOPASS, DBNAME, PORT } = config
 
 const url = DBURL!
   .replace('<MONGOUSER>', MONGOUSER!)
@@ -15,7 +16,14 @@ let client: MongoClient
 
 async function main() {
   try {
+    if (!PORT || !DBNAME) throw new Error('Config Does Not Exist!')
+
+    RedisService.on('ready', () => {
+      console.log('RedisService connected and ready to use ...')
+    })
+
     // ;`mongodb://root:secret@localhost:27017/${DBNAME}`
+
     client = new MongoClient(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -31,20 +39,25 @@ async function main() {
       await createUserSchema(db)
       await UserRepository.injectDB(db)
 
-      if (config.PORT)
-        app.listen(parseInt(config.PORT), () =>
-          // app.listen(5002, () =>
-          console.log(`Server running on port ${config.PORT}`)
-        )
+      app.listen(parseInt(PORT), () =>
+        console.log(`Server running on port ${PORT}`)
+      )
     }
   } catch (error) {
     console.log(error.stack)
     await client.close()
+    await RedisService.quit()
     process.exit(1)
   }
 }
 
 main()
 process.on('warning', e => console.warn(e.stack))
-process.on('SIGINT', () => client.close())
-process.on('SIGTERM', () => client.close())
+process.on('SIGINT', () => {
+  client.close()
+  RedisService.quit()
+})
+process.on('SIGTERM', () => {
+  client.close()
+  RedisService.quit()
+})

@@ -28,6 +28,7 @@ services:
   apiauth:
     image: penkong/vanillanodemongo
     environment:
+      - REDIS=${}
       - PORT=${}
       - DBURL=${}
       - DBNAME=${}
