@@ -1,3 +1,4 @@
+# use docker image scanner.
 FROM node:15.13.0-alpine
 
 RUN apk add --no-cache bash
@@ -22,14 +23,18 @@ COPY package*.json ./
 
 
 RUN npm install -g mongodb
+RUN chown -R node:node .
+USER node
 RUN npm config set unsafe-perm true
+
 # we use npm ci here so only the package-lock.json file is used
 RUN npm config list \
     && npm ci \
     && npm cache clean --force
 
 
-COPY . .
+
+COPY --chown=node:node . .
 
 RUN cd /app/src
 RUN npm link mongodb

@@ -48,7 +48,7 @@ services:
       - CORS=http://localhost:3000
       - JWT_KEY=uy6hw65hywtrnbewhnterwhg
       - JWT_TTL=365d
-    ports: 
-      - 5002:5002
+    # ports: 
+    #   - 5002:5002
 
 

@@ -33,7 +33,7 @@ RUN npm config list \
 COPY . .
 EXPOSE 5002
 
-CMD ["npm", "run", "dev"]
+CMD ["node", "./dist/index.js"]
 
 
 
