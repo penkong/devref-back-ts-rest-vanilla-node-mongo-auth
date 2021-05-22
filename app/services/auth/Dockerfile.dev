@@ -1,7 +1,8 @@
 # use docker image scanner.
+# it is better PID in code
 FROM node:15.13.0-alpine
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash tini curl
 
 ENV REDIS=http://127.0.0.1
 ENV PORT=5002
@@ -41,6 +42,10 @@ RUN npm link mongodb
 
 EXPOSE 5002
 
+# entrypoint frist run and wrap cmd
+# tini run as main process and if we SIGINT or SIGTERM
+# it will remove node process as zombie process .
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["npm", "run", "dev"]
 
 

@@ -27,6 +27,8 @@ services:
 
   apiauth:
     image: penkong/vanillanodemongo
+    # build: 
+    #   target: prod
     environment:
       - REDIS=${}
       - PORT=${}

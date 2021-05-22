@@ -52,12 +52,21 @@ async function main() {
 }
 
 main()
+
+// --- handle things on bad things .
+
 process.on('warning', e => console.warn(e.stack))
 process.on('SIGINT', () => {
-  client.close()
-  RedisService.quit()
+  shutdown()
 })
 process.on('SIGTERM', () => {
+  shutdown()
+})
+
+// shut down server
+function shutdown() {
   client.close()
   RedisService.quit()
-})
+  process.exitCode = 1
+  process.exit()
+}
