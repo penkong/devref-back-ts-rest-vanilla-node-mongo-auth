@@ -58,3 +58,14 @@ CMD ["npm", "run", "dev"]
 # for ci infra before building prod
 FROM base as test
 CMD ["npm", "run", "test"]
+
+
+# 12 factor for distributed cloud app
+# 12factor.net
+# use env var for config
+# log to stdout / stderr
+# pin all versions , even npm
+# graceful exit sigterm/init
+# dockerignore
+# 12factor.net/config, logs
+# use winston, bunyan, morgan
