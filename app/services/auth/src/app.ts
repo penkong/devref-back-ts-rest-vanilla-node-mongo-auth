@@ -17,7 +17,6 @@ declare global {
 export const app = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
     //
-
     if (req.url == undefined) return res.end()
 
     const url = UrlRefiner.maker(req.url)

@@ -8,10 +8,10 @@ services:
   # portainer:
   #   stdin_open: true
 
-  # redis:
-  #   stdin_open: true
-  #   environment:
-  #     - ALLOW_EMPTY_PASSWORD=yes
+  redis:
+    stdin_open: true
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
 
   mongodb:
     stdin_open: true
@@ -31,11 +31,13 @@ services:
   apiauth:
     build: 
       dockerfile: Dockerfile.dev
+      # target: dev
     stdin_open: true
     volumes: 
       - /app/node_modules 
       - ../../app/services/auth:/app
     environment:
+      - REDIS=redis
       - PORT=5002
       # to specify any other option for connection add ?retryWrites=true
       # to import data in mongo mongorestore --gzip --archive=sampledata.archive.gz
@@ -47,7 +49,7 @@ services:
       - CORS=http://localhost:3000
       - JWT_KEY=uy6hw65hywtrnbewhnterwhg
       - JWT_TTL=365d
-    ports: 
-      - 5002:5002
+    # ports: 
+    #   - 5002:5002
 
 

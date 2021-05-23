@@ -10,21 +10,15 @@ export async function currentUser(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  if (!req.headers.cookie) {
-    res.writeHead(404, { 'Content-Type': 'application/json' })
-    res.write(JSON.stringify([{ message: 'go back' }]))
-    res.end()
-    return
-  }
-
-  const cookie = req.headers.cookie.split('=')
-
-  if (cookie.includes('vanillajwt')) {
-    const info: ICurrentUser = getUser(cookie[1])
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.write(JSON.stringify([{ currentUser: info }]))
-    res.end()
-    return
+  if (req.headers.cookie) {
+    const cookie = req.headers.cookie!.split('=')
+    if (cookie.includes('vanillajwt')) {
+      const info: ICurrentUser = getUser(cookie[1])
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.write(JSON.stringify([{ currentUser: info }]))
+      res.end()
+      return
+    }
   }
 
   res.writeHead(404, { 'Content-Type': 'application/json' })

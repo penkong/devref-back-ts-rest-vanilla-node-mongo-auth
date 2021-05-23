@@ -7,6 +7,7 @@ require('dotenv').config()
 // ---
 
 export const config = {
+  REDIS: process.env.REDIS,
   PORT: process.env.PORT,
   DBURL: process.env.DBURL,
   DBNAME: process.env.DBNAME,
