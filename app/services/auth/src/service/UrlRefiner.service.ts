@@ -16,14 +16,17 @@ export class UrlRefiner {
   }
 
   static checker(url: URL, req: IncomingMessage): boolean {
-    if (!validMethods.includes(req.method!)) return false
+    let isOk = true
 
-    if (url.pathname === '/favicon.ico') return false
+    if (!validMethods.includes(req.method!)) isOk = false
+    if (url.pathname === '/favicon.ico') isOk = false
 
     const r = req.method + url.pathname
+    console.log(r)
 
-    if (!validRoutes.includes(r)) return false
+    if (!validRoutes.includes(r)) isOk = false
+    if (r.includes(validRoutes[5])) isOk = true
 
-    return true
+    return isOk
   }
 }

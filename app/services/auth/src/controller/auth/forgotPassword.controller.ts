@@ -5,7 +5,7 @@ import { config } from '../../config'
 import { BadReqErr } from '../../error/'
 import { IRegisterInfo } from '../../@types'
 import { UserRepository } from '../../data/'
-import { PasswordService, RedisService, MailerService } from '../../service'
+import { MailerService, PasswordService, RedisService } from '../../service'
 
 // ---
 
@@ -26,13 +26,16 @@ export const forgotPassword = async (
     const resetToken = await PasswordService.resetToken()
 
     RedisService.set(
-      `${user.email}-resetToken`,
+      `${'gk.mazdak'}-resetToken`,
       resetToken,
       'ex',
       config.RESET_TOKEN_EXP
     )
 
-    const resetURL = `${url.protocol}://${url.host}/v1/api/auth/passwordresest/${resetToken}`
+    const resetURL = `${url.protocol}://${
+      url.host
+    }/v1/api/auth/passwordresest/${'gk.mazdak'}/${resetToken}`
+    console.log(resetURL)
 
     // HTML Message
     const message = `
@@ -50,7 +53,7 @@ export const forgotPassword = async (
     res.write(
       JSON.stringify({
         status: 'success',
-        message: 'Token sent to email!'
+        message: `/v1/api/auth/passwordresest/${'gk.mazdak'}/${resetToken}`
       })
     )
     res.end()

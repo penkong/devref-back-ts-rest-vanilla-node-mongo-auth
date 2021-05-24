@@ -1,10 +1,9 @@
-import { Db, Collection, WithId, InsertOneWriteOpResult } from 'mongodb'
-
-import { IRegisterInfo } from '../../@types'
+import { Db, Collection, InsertOneWriteOpResult, WithId } from 'mongodb'
+import { IRegisterInfo } from '../../@types/index'
 
 // ---
 
-export interface UserModel extends Collection<UserModel> {
+export interface UserModel {
   email: string
   password: string
 }
@@ -32,6 +31,12 @@ export class UserRepository {
       console.log(error)
       throw new Error(error)
     }
+  }
+
+  static async create(
+    info: IRegisterInfo
+  ): Promise<InsertOneWriteOpResult<WithId<UserModel>>['ops']> {
+    return (await this.users.insertOne(info)).ops
   }
 
   static async updatePassword(email: string, password: string) {

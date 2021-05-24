@@ -32,11 +32,10 @@ export class PasswordService {
     return buf.toString('hex') === hashedPassword
   }
 
-  static async resetToken() {
+  static async resetToken(t?: string) {
     try {
-      return createHash('sha256')
-        .update(randomBytes(20).toString('hex'))
-        .digest('hex')
+      const tt = t || randomBytes(20).toString('hex')
+      return createHash('sha256').update(tt).digest('hex')
     } catch (error) {
       console.log(error)
       throw new Error(error)

@@ -4,5 +4,5 @@ export const validRoutes = [
   'GET/v1/api/auth/current-user',
   'GET/v1/api/auth/logout',
   'POST/v1/api/auth/forgotpassword',
-  'PUT/v1/api/auth/passwordresest/'
+  'POST/v1/api/auth/passwordresest/'
 ]
