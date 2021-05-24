@@ -13,6 +13,11 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
 
+  redis-commander:
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - PORT=8083
+
   mongodb:
     stdin_open: true
     environment:
@@ -49,8 +54,10 @@ services:
       - CORS=http://localhost:3000
       - JWT_KEY=uy6hw65hywtrnbewhnterwhg
       - JWT_TTL=365d
-    # ports: 
-    #   - 5002:5002
+      - RESET_TOKEN_EXP=600
+      - SENDGRID_USER=nazemi.works@gmail.com
+      - SENDGRID_PASS=https://signup.sendgrid.
+      - EMAIL_FROM=security@devref.ir
 
 
 # docker-compose run can run command shell 

@@ -4,7 +4,8 @@ import { getBody } from '../../util'
 import { BadReqErr } from '../../error/'
 import { IRegisterInfo } from '../../@types'
 // import { UserRepository } from '../../data/'
-import { PasswordService } from '../../service/Password.service'
+import { PasswordService, RedisService } from '../../service'
+import { config } from '../../config'
 
 export const forgotPassword = async (
   _url: URL,
@@ -21,6 +22,14 @@ export const forgotPassword = async (
     // if (!user) throw new BadReqErr('Go Register!')
 
     const resetToken = await PasswordService.resetToken()
+
+    const e = 'gk.mazdak@gmail.com'
+    RedisService.set(
+      `${e}-resetToken`,
+      resetToken,
+      'ex',
+      config.RESET_TOKEN_EXP
+    )
 
     res.writeHead(201, { 'Content-Type': 'application/json' })
     res.write(JSON.stringify(resetToken))
