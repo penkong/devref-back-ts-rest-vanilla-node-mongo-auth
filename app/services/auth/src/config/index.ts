@@ -16,5 +16,10 @@ export const config = {
   MONGOUSER: process.env.MONGOUSER,
   CORS: process.env.CORS,
   JWT_KEY: process.env.JWT_KEY,
-  JWT_TTL: process.env.JWT_TTL
+  JWT_TTL: process.env.JWT_TTL,
+  RESET_TOKEN_EXP: process.env.RESET_TOKEN_EXP,
+  SENDGRID_USER: process.env.SENDGRID_USER,
+  SENDGRID_PASS: process.env.SENDGRID_PASS,
+  EMAIL_FROM: process.env.EMAIL_FROM,
+  SMTP_SERVER: process.env.SMTP_SERVER
 }

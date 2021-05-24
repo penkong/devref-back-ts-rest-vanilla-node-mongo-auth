@@ -1,6 +1,5 @@
-import { Db, Collection, WithId, InsertOneWriteOpResult } from 'mongodb'
-
-import { IRegisterInfo } from '../../@types'
+import { Db, Collection, InsertOneWriteOpResult, WithId } from 'mongodb'
+import { IRegisterInfo } from '../../@types/index'
 
 // ---
 
@@ -30,7 +29,7 @@ export class UserRepository {
       return await this.users.findOne({ email })
     } catch (error) {
       console.log(error)
-      return null
+      throw new Error(error)
     }
   }
 
@@ -38,5 +37,21 @@ export class UserRepository {
     info: IRegisterInfo
   ): Promise<InsertOneWriteOpResult<WithId<UserModel>>['ops']> {
     return (await this.users.insertOne(info)).ops
+  }
+
+  static async updatePassword(email: string, password: string) {
+    try {
+      const updateResponse = await this.users.updateOne(
+        { email },
+        { $set: { password } }
+      )
+
+      if (updateResponse.matchedCount === 0) throw new Error('Not Found Match!')
+
+      return updateResponse
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
   }
 }

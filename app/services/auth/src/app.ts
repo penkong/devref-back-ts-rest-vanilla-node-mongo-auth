@@ -23,7 +23,12 @@ export const app = http.createServer(
 
     const isOk = UrlRefiner.checker(url, req)
 
-    if (!isOk) return res.end()
+    if (!isOk) {
+      res.writeHead(400, { 'Content-Type': 'application/json' })
+      res.write(JSON.stringify([{ message: 'not exist' }]))
+      res.end()
+      return
+    }
 
     Router.dispatch(url, req, res)
   }

@@ -13,6 +13,11 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
 
+  redis-commander:
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - PORT=8083
+
   mongodb:
     stdin_open: true
     environment:
@@ -20,13 +25,13 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
       - MONGO_INITDB_DATABASE=vanillanodemongo
 
-  mongo-express:
-    stdin_open: true
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_SITE_BASEURL=/__info__/mongo-express
+  # mongo-express:
+  #   stdin_open: true
+  #   environment:
+  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
+  #     - ME_CONFIG_MONGODB_SERVER=mongodb
+  #     - ME_CONFIG_SITE_BASEURL=/__info__/mongo-express
 
   apiauth:
     build: 
@@ -49,7 +54,11 @@ services:
       - CORS=http://localhost:3000
       - JWT_KEY=uy6hw65hywtrnbewhnterwhg
       - JWT_TTL=365d
-    # ports: 
-    #   - 5002:5002
+      - RESET_TOKEN_EXP=600
+      - SENDGRID_USER=nazemi.works@gmail.com
+      - SENDGRID_PASS=https://signup.sendgrid.
+      - EMAIL_FROM=security@devref.ir
+      - SMTP_SERVER=fdsfdsfsdfsdfsdfsdf
 
 
+# docker-compose run can run command shell 

@@ -16,5 +16,10 @@ declare namespace NodeJS {
     CORS: string // http://localhost:3000
     JWT_KEY: string // -fdsfdsf
     JWT_TTL: string // 365d
+    RESET_TOKEN_EXP: string
+    SENDGRID_USER: string
+    SENDGRID_PASS: string
+    EMAIL_FROM: string
+    SMTP_SERVER: string
   }
 }

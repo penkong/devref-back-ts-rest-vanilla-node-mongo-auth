@@ -1,6 +1,7 @@
 export interface IRegisterInfo {
   email: string
   password: string
+  newPassword?: string
 }
 
 export interface ICurrentUser {
