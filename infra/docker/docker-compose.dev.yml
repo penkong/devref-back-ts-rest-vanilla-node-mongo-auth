@@ -20,13 +20,13 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
       - MONGO_INITDB_DATABASE=vanillanodemongo
 
-  mongo-express:
-    stdin_open: true
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_SITE_BASEURL=/__info__/mongo-express
+  # mongo-express:
+  #   stdin_open: true
+  #   environment:
+  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
+  #     - ME_CONFIG_MONGODB_SERVER=mongodb
+  #     - ME_CONFIG_SITE_BASEURL=/__info__/mongo-express
 
   apiauth:
     build: 
@@ -53,3 +53,4 @@ services:
     #   - 5002:5002
 
 
+# docker-compose run can run command shell 

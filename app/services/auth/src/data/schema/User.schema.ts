@@ -101,7 +101,6 @@ export const createUserSchema = async (db: Db) => {
     console.log('users Schema Created')
 
     await db.collection('users').createIndex({ email: 1 }, { unique: true })
-
     console.log('Name index created for unique constraint')
   } catch (error) {
     console.log(error)

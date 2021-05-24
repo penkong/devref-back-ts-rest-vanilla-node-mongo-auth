@@ -12,7 +12,8 @@ services:
       - apiauth
       - redis
       - mongodb
-      - mongo-express
+      - redis-commander
+      # - mongo-express
       # - portainer
     volumes: 
       # remember!!!!!!! add trust proxy to nodejs services
@@ -30,6 +31,15 @@ services:
     restart: always
     volumes:
       - redisvol:/var/lib/redis
+  
+  redis-commander:
+    image: "rediscommander/redis-commander:latest"
+    restart: always
+    depends_on: 
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - PORT=8083
 
   mongodb:
     image: mongo
@@ -38,11 +48,11 @@ services:
       - ../../app/services/db/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongovol:/data/db
 
-  mongo-express:
-    image: mongo-express
-    restart: always 
-    depends_on:
-      - mongodb
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always 
+  #   depends_on:
+  #     - mongodb
 
   apiauth:
     build: 

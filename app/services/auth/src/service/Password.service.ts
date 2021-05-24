@@ -2,7 +2,7 @@
  ** Description :
  */
 
-import { scrypt, randomBytes } from 'crypto'
+import { scrypt, randomBytes, createHash } from 'crypto'
 import { promisify } from 'util'
 
 // ---
@@ -30,5 +30,16 @@ export class PasswordService {
     const buf = (await scryptAsync(password, salt, 64)) as Buffer
 
     return buf.toString('hex') === hashedPassword
+  }
+
+  static async resetToken() {
+    try {
+      return createHash('sha256')
+        .update(randomBytes(20).toString('hex'))
+        .digest('hex')
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
   }
 }
