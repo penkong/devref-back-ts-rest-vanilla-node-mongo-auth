@@ -4,7 +4,7 @@ import { IRegisterInfo } from '../../@types'
 
 // ---
 
-export interface UserModel {
+export interface UserModel extends Collection<UserModel> {
   email: string
   password: string
 }
@@ -30,13 +30,23 @@ export class UserRepository {
       return await this.users.findOne({ email })
     } catch (error) {
       console.log(error)
-      return null
+      throw new Error(error)
     }
   }
 
-  static async create(
-    info: IRegisterInfo
-  ): Promise<InsertOneWriteOpResult<WithId<UserModel>>['ops']> {
-    return (await this.users.insertOne(info)).ops
+  static async updatePassword(email: string, password: string) {
+    try {
+      const updateResponse = await this.users.updateOne(
+        { email },
+        { $set: { password } }
+      )
+
+      if (updateResponse.matchedCount === 0) throw new Error('Not Found Match!')
+
+      return updateResponse
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
   }
 }

@@ -18,6 +18,7 @@ ENV RESET_TOKEN_EXP=300
 ENV SENDGRID_USER=nazemi.works@gmail.com
 ENV SENDGRID_PASS=https://signup.sendgrid.
 ENV EMAIL_FROM=security@devref.ir
+ENV SMTP_SERVER=fdsfsdfsdfsdfsdf
 
 
 

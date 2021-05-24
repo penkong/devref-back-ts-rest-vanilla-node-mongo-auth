@@ -37,6 +37,7 @@ export class Router {
 
     if (r == validRoutes[4]) return await forgotPassword(url, req, res)
 
-    if (r == validRoutes[5]) return await resetPassword(url, req, res)
+    console.log(r.includes(validRoutes[5]))
+    if (r.includes(validRoutes[5])) return await resetPassword(url, req, res)
   }
 }

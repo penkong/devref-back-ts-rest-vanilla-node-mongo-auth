@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-export class Email {
+export class MailerService {
   to: string
   firstname: string
   from: string

@@ -58,6 +58,7 @@ services:
       - SENDGRID_USER=nazemi.works@gmail.com
       - SENDGRID_PASS=https://signup.sendgrid.
       - EMAIL_FROM=security@devref.ir
+      - SMTP_SERVER=fdsfdsfsdfsdfsdfsdf
 
 
 # docker-compose run can run command shell 

@@ -20,5 +20,6 @@ export const config = {
   RESET_TOKEN_EXP: process.env.RESET_TOKEN_EXP,
   SENDGRID_USER: process.env.SENDGRID_USER,
   SENDGRID_PASS: process.env.SENDGRID_PASS,
-  EMAIL_FROM: process.env.EMAIL_FROM
+  EMAIL_FROM: process.env.EMAIL_FROM,
+  SMTP_SERVER: process.env.SMTP_SERVER
 }

@@ -20,5 +20,6 @@ declare namespace NodeJS {
     SENDGRID_USER: string
     SENDGRID_PASS: string
     EMAIL_FROM: string
+    SMTP_SERVER: string
   }
 }
